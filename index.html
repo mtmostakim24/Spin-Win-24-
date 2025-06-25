@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
   <meta charset="UTF-8">
   <title>Earn App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -17,7 +16,6 @@
       padding: 20px;
       text-align: center;
       font-size: 24px;
-      font-weight: bold;
     }
     .container {
       padding: 20px;
@@ -82,117 +80,91 @@
   </style>
 </head>
 <body>
-  <header>Earn App - রেফার করে আয় করুন</header>
-  <div class="container">
-
-    <!-- Step 1: Invite Friends -->
-    <div class="card" id="inviteCard">
-      <h3>🎯 কাজ শুরু করার আগে</h3>
-      <p class="share-message">Messenger-এ ১০ জন বন্ধুকে এই লিংকটি পাঠান।</p>
-      <strong>👇 আপনার রেফার লিংক:</strong>
-      <input type="text" id="myLink" readonly>
-      <div class="button" onclick="shareOnMessenger()">📩 Messenger-এ পাঠান</div>
+<header>Earn App - রেফার করে আয় করুন</header>
+<div class="container">
+  <div class="card" id="inviteCard">
+    <h3>🎯 কাজ শুরু করার আগে</h3>
+    <p class="share-message">আপনার বন্ধুদের মেসেঞ্জারে শেয়ার করুন এবং আয় শুরু করুন!</p>
+    <input type="hidden" id="myLink" readonly>
+    <div class="button" onclick="shareOnMessenger()">📩 Messenger-এ পাঠান</div>
+  </div>  <div class="card hidden" id="confirmationCard">
+    <h3>📢 নিশ্চিত করুন</h3>
+    <p>আপনি কি ১০ জন বন্ধুকে লিংক পাঠিয়েছেন?</p>
+    <div class="button" onclick="confirmShare(true)">✅ হ্যাঁ</div>
+    <div class="button" onclick="confirmShare(false)">❌ না</div>
+  </div>  <div class="card hidden" id="mainContent">
+    <h3>💰 আপনার ব্যালেন্স</h3>
+    <div class="balance-box">
+      <div class="balance-item">Balance: ৳<span id="balance">1200</span></div>
+      <div class="balance-item">Referrals: 10</div>
     </div>
-
-    <!-- Confirmation Prompt -->
-    <div class="card hidden" id="confirmationPrompt">
-      <h3>আপনি কি ১০ জনকে শেয়ার করেছেন?</h3>
-      <div class="button" onclick="confirmShared(true)">✅ Yes</div>
-      <div class="button" onclick="shareOnMessenger()">❌ No, আবার শেয়ার করব</div>
-    </div>
-
-    <!-- Step 2: Main Content -->
-    <div class="card hidden" id="mainContent">
-      <h3>💰 আপনার ব্যালেন্স</h3>
-      <div class="balance-box">
-        <div class="balance-item">Balance: ৳<span id="balance">1200</span></div>
-        <div class="balance-item">Referrals: 10</div>
-      </div>
-      <div class="button" onclick="showWithdraw()">💵 টাকা তুলুন</div>
-      <div class="button" onclick="shareOnMessenger()">📩 আবার শেয়ার করুন</div>
-    </div>
-
-    <!-- Withdraw Form -->
-    <div class="card hidden" id="withdrawForm">
-      <h3>🧾 টাকা উত্তোলন</h3>
-      <select id="method">
-        <option value="">পেমেন্ট মাধ্যম নির্বাচন করুন</option>
-        <option value="bkash">Bkash</option>
-        <option value="nagad">Nagad</option>
-        <option value="rocket">Rocket</option>
-      </select>
-      <input type="text" id="number" placeholder="অ্যাকাউন্ট নাম্বার">
-      <input type="number" id="amount" placeholder="পরিমাণ (৳)">
-      <div class="button" onclick="submitWithdraw()">✅ সাবমিট করুন</div>
-    </div>
-
-    <!-- Verify Form -->
-    <div class="card hidden" id="verifyCard">
-      <h3>🔐 অ্যাকাউন্ট ভেরিফাই করুন</h3>
-      <p>উত্তোলনের জন্য আপনার অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন। নিচে ক্লিক করুন:</p>
-      <a class="button" href="https://adsterra.com/verify-link" target="_blank">🔓 Verify Now</a>
-      <p style="margin-top:15px;">স্ক্রিনশট জমা দিন:</p>
-      <input type="file" id="screenshotUpload" accept="image/*">
-      <div class="button" onclick="submitVerification()">📤 Verify Submit</div>
-    </div>
-
+    <div class="button" onclick="showWithdraw()">💵 টাকা তুলুন</div>
+    <div class="button" onclick="shareOnMessenger()">📤 আবার মেসেঞ্জারে শেয়ার করুন</div>
+  </div>  <div class="card hidden" id="withdrawForm">
+    <h3>🧾 টাকা উত্তোলন</h3>
+    <select id="method">
+      <option value="">পেমেন্ট মাধ্যম নির্বাচন করুন</option>
+      <option value="bkash">Bkash</option>
+      <option value="nagad">Nagad</option>
+      <option value="rocket">Rocket</option>
+    </select>
+    <input type="text" id="number" placeholder="অ্যাকাউন্ট নাম্বার">
+    <input type="number" id="amount" placeholder="পরিমাণ (৳)">
+    <div class="button" onclick="submitWithdraw()">✅ সাবমিট করুন</div>
+  </div>  <div class="card hidden" id="verifyCard">
+    <h3>🔐 অ্যাকাউন্ট ভেরিফাই করুন</h3>
+    <p>উত্তোলনের জন্য আপনার অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন। নিচে স্কিনশট আপলোড করুন:</p>
+    <input type="file" id="screenshot">
+    <div class="button" onclick="submitVerification()">🔓 Verify Submit</div>
   </div>
+</div><script>
+  const myLink = document.getElementById("myLink");
+  const ip = Math.floor(Math.random() * 100000);
+  const refLink = `https://yourapp.com?ref=ip${ip}`;
+  myLink.value = refLink;
 
-  <script>
-    let shared = false;
-    const myLink = document.getElementById("myLink");
+  function shareOnMessenger() {
+    const text = `হাই! আমি এখানে ১২০০ টাকা বোনাস পেয়েছি চাইলে তুমিও নিতে পারো জাস্ট লিংকে ক্লিক করো 👇\n${refLink}`;
+    const encodedText = encodeURIComponent(text);
+    const messengerLink = `https://m.me/?link=${encodeURIComponent(refLink)}&quote=${encodedText}`;
+    window.location.href = messengerLink;
+    document.getElementById("inviteCard").classList.add("hidden");
+    document.getElementById("confirmationCard").classList.remove("hidden");
+  }
 
-    const ip = Math.floor(Math.random() * 100000);
-    const refLink = `https://new-mt-earning.vercel.app?ref=ip${ip}`;
-    myLink.value = refLink;
-
-    function shareOnMessenger() {
-      const text = `হাই! আমি এখানে ১২০০ টাকা বোনাস পেয়েছি 😍\nতুমি চাইলে এখান থেকে নিতে পারো 👇\n${refLink}`;
-      const encodedText = encodeURIComponent(text);
-      const fbLink = `https://m.me/?link=${encodeURIComponent(refLink)}&quote=${encodedText}`;
-      setTimeout(() => {
-        window.location.href = fbLink;
-        document.getElementById("inviteCard").classList.add("hidden");
-        document.getElementById("confirmationPrompt").classList.remove("hidden");
-      }, 300);
+  function confirmShare(confirmed) {
+    if (confirmed) {
+      document.getElementById("confirmationCard").classList.add("hidden");
+      document.getElementById("mainContent").classList.remove("hidden");
+    } else {
+      shareOnMessenger();
     }
+  }
 
-    function confirmShared(choice) {
-      if (choice) {
-        shared = true;
-        document.getElementById("confirmationPrompt").classList.add("hidden");
-        document.getElementById("mainContent").classList.remove("hidden");
-      } else {
-        shareOnMessenger();
-      }
+  function showWithdraw() {
+    document.getElementById("withdrawForm").classList.remove("hidden");
+  }
+
+  function submitWithdraw() {
+    const method = document.getElementById("method").value;
+    const number = document.getElementById("number").value;
+    const amount = document.getElementById("amount").value;
+
+    if (!method || !number || !amount) {
+      alert("⚠️ সব ঘর পূরণ করুন");
+      return;
     }
+    document.getElementById("withdrawForm").classList.add("hidden");
+    document.getElementById("verifyCard").classList.remove("hidden");
+  }
 
-    function showWithdraw() {
-      document.getElementById("withdrawForm").classList.remove("hidden");
+  function submitVerification() {
+    const fileInput = document.getElementById("screenshot");
+    if (!fileInput.files.length) {
+      alert("⚠️ স্কিনশট নির্বাচন করুন");
+      return;
     }
-
-    function submitWithdraw() {
-      const method = document.getElementById("method").value;
-      const number = document.getElementById("number").value;
-      const amount = document.getElementById("amount").value;
-
-      if (!method || !number || !amount) {
-        alert("⚠️ সব ঘর পূরণ করুন");
-        return;
-      }
-
-      document.getElementById("withdrawForm").classList.add("hidden");
-      document.getElementById("verifyCard").classList.remove("hidden");
-    }
-
-    function submitVerification() {
-      const file = document.getElementById("screenshotUpload").files[0];
-      if (!file) {
-        alert("⚠️ দয়া করে স্ক্রিনশট দিন");
-        return;
-      }
-      alert("✅ ভেরিফাই সাবমিট হয়েছে?\nআপনি যদি সঠিক করে রেফার এবং ভেরিফাই করে থাকেন তাহলে আপনি ৭২ ঘন্টার মধ্যে পেমেন্ট পেয়ে যাবেন।\nযাদেরকে রেফার করেছেন তারা যদি লিংকে ক্লিক করে রেফার না করে তাহলে আপনি পেমেন্ট পাবেন না।\nধন্যবাদ 🌺");
-    }
-  </script>
-</body>
+    alert("✅ ভেরিফাই সাবমিট হয়েছে\n\nআপনি যদি সঠিক করে রেফার এবং ভেরিফাই করে থাকেন তাহলে আপনি ৭২ ঘন্টার মধ্যে পেমেন্ট পেয়ে যাবেন।\nযাদেরকে রেফার করেছেন তারা যদি লিংকে ক্লিক না করে তাহলে আপনি পেমেন্ট পাবেন না। ধন্যবাদ 🌺");
+  }
+</script></body>
 </html>
