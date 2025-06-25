@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="bn">
+<!DOCTYPE html>
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>Earn App</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earn App</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -16,6 +17,7 @@
       padding: 20px;
       text-align: center;
       font-size: 24px;
+      font-weight: bold;
     }
     .container {
       padding: 20px;
@@ -29,18 +31,6 @@
       padding: 20px;
       margin-bottom: 20px;
     }
-    h3 {
-      margin-top: 0;
-      color: #2e7d32;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-    }
     .button {
       background: #43a047;
       color: white;
@@ -50,14 +40,9 @@
       margin-top: 12px;
       cursor: pointer;
       font-weight: bold;
-      transition: background 0.3s ease;
     }
-    .button:hover {
-      background: #2e7d32;
-    }
-    .hidden {
-      display: none;
-    }
+    .button:hover { background: #2e7d32; }
+    .hidden { display: none; }
     .balance-box {
       display: flex;
       justify-content: space-between;
@@ -71,100 +56,104 @@
       text-align: center;
       font-weight: bold;
     }
-    .share-message {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #388e3c;
-      text-align: center;
+    .center-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-<header>Earn App - রেফার করে আয় করুন</header>
-<div class="container">
-  <div class="card" id="inviteCard">
-    <h3>🎯 কাজ শুরু করার আগে</h3>
-    <p class="share-message">আপনার বন্ধুদের মেসেঞ্জারে শেয়ার করুন এবং আয় শুরু করুন!</p>
-    <input type="hidden" id="myLink" readonly>
-    <div class="button" onclick="shareOnMessenger()">📩 Messenger-এ পাঠান</div>
-  </div>  <div class="card hidden" id="confirmationCard">
-    <h3>📢 নিশ্চিত করুন</h3>
-    <p>আপনি কি ১০ জন বন্ধুকে লিংক পাঠিয়েছেন?</p>
-    <div class="button" onclick="confirmShare(true)">✅ হ্যাঁ</div>
-    <div class="button" onclick="confirmShare(false)">❌ না</div>
-  </div>  <div class="card hidden" id="mainContent">
-    <h3>💰 আপনার ব্যালেন্স</h3>
-    <div class="balance-box">
-      <div class="balance-item">Balance: ৳<span id="balance">1200</span></div>
-      <div class="balance-item">Referrals: 10</div>
+  <header>Earn App - রেফার করে আয় করুন</header>
+  <div class="container">
+    <div class="card" id="inviteCard">
+      <h3>🎯 কাজ শুরু করার আগে</h3>
+      <p>১০ জন বন্ধুকে Messenger-এ রেফার লিংক পাঠান</p>
+      <div class="button" onclick="shareOnMessenger()">📩 Messenger-এ পাঠান</div>
     </div>
-    <div class="button" onclick="showWithdraw()">💵 টাকা তুলুন</div>
-    <div class="button" onclick="shareOnMessenger()">📤 আবার মেসেঞ্জারে শেয়ার করুন</div>
-  </div>  <div class="card hidden" id="withdrawForm">
-    <h3>🧾 টাকা উত্তোলন</h3>
-    <select id="method">
-      <option value="">পেমেন্ট মাধ্যম নির্বাচন করুন</option>
-      <option value="bkash">Bkash</option>
-      <option value="nagad">Nagad</option>
-      <option value="rocket">Rocket</option>
-    </select>
-    <input type="text" id="number" placeholder="অ্যাকাউন্ট নাম্বার">
-    <input type="number" id="amount" placeholder="পরিমাণ (৳)">
-    <div class="button" onclick="submitWithdraw()">✅ সাবমিট করুন</div>
-  </div>  <div class="card hidden" id="verifyCard">
-    <h3>🔐 অ্যাকাউন্ট ভেরিফাই করুন</h3>
-    <p>উত্তোলনের জন্য আপনার অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন। নিচে স্কিনশট আপলোড করুন:</p>
-    <input type="file" id="screenshot">
-    <div class="button" onclick="submitVerification()">🔓 Verify Submit</div>
+
+    <div class="card hidden" id="confirmCard">
+      <h3>📢 আপনি কি ১০ জন বন্ধুকে শেয়ার করেছেন?</h3>
+      <div class="center-buttons">
+        <div class="button" onclick="enterSite()">✅ Yes</div>
+        <div class="button" onclick="shareOnMessenger()">❌ No</div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="mainContent">
+      <h3>💰 আপনার ব্যালেন্স</h3>
+      <div class="balance-box">
+        <div class="balance-item">Balance: ৳<span id="balance">1200</span></div>
+        <div class="balance-item">Referrals: 10</div>
+      </div>
+      <div class="button" onclick="showWithdraw()">💵 টাকা তুলুন</div>
+      <div class="button" onclick="shareOnMessenger()">📩 আবার বন্ধুদের পাঠান</div>
+    </div>
+
+    <div class="card hidden" id="withdrawForm">
+      <h3>🧾 টাকা উত্তোলন</h3>
+      <select id="method">
+        <option value="">পেমেন্ট মাধ্যম নির্বাচন করুন</option>
+        <option value="bkash">Bkash</option>
+        <option value="nagad">Nagad</option>
+        <option value="rocket">Rocket</option>
+      </select>
+      <input type="text" id="number" placeholder="অ্যাকাউন্ট নাম্বার">
+      <input type="number" id="amount" placeholder="পরিমাণ (৳)">
+      <div class="button" onclick="submitWithdraw()">✅ সাবমিট করুন</div>
+    </div>
+
+    <div class="card hidden" id="verifyCard">
+      <h3>🔐 অ্যাকাউন্ট ভেরিফাই করুন</h3>
+      <p>উত্তোলনের জন্য আপনার অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন। নিচে ক্লিক করুন:</p>
+      <a class="button" href="https://adsterra.com/verify-link" target="_blank">🔓 Verify Now</a>
+
+      <h4>🖼 স্কিনশট জমা দিন</h4>
+      <input type="file" accept="image/*" />
+      <div class="button" onclick="verifySubmit()">📤 Verify Submit</div>
+    </div>
   </div>
-</div><script>
-  const myLink = document.getElementById("myLink");
-  const ip = Math.floor(Math.random() * 100000);
-  const refLink = `https://yourapp.com?ref=ip${ip}`;
-  myLink.value = refLink;
 
-  function shareOnMessenger() {
-    const text = `হাই! আমি এখানে ১২০০ টাকা বোনাস পেয়েছি চাইলে তুমিও নিতে পারো জাস্ট লিংকে ক্লিক করো 👇\n${refLink}`;
-    const encodedText = encodeURIComponent(text);
-    const messengerLink = `https://m.me/?link=${encodeURIComponent(refLink)}&quote=${encodedText}`;
-    window.location.href = messengerLink;
-    document.getElementById("inviteCard").classList.add("hidden");
-    document.getElementById("confirmationCard").classList.remove("hidden");
-  }
+  <script>
+    const ip = Math.floor(Math.random() * 100000);
+    const refLink = `https://new-mt-earning.vercel.app?ref=ip${ip}`;
 
-  function confirmShare(confirmed) {
-    if (confirmed) {
-      document.getElementById("confirmationCard").classList.add("hidden");
+    function shareOnMessenger() {
+      const text = `বন্ধু, আমি ১২০০ টাকা ফ্রি বোনাস পেয়েছি 🤑\nতুমি ও পাবে এখান থেকে 👇\n${refLink}`;
+      const messengerLink = `https://m.me/?ref=${encodeURIComponent(refLink)}`;
+
+      window.location.href = messengerLink;
+
+      document.getElementById("inviteCard").classList.add("hidden");
+      document.getElementById("confirmCard").classList.remove("hidden");
+    }
+
+    function enterSite() {
+      document.getElementById("confirmCard").classList.add("hidden");
       document.getElementById("mainContent").classList.remove("hidden");
-    } else {
-      shareOnMessenger();
     }
-  }
 
-  function showWithdraw() {
-    document.getElementById("withdrawForm").classList.remove("hidden");
-  }
-
-  function submitWithdraw() {
-    const method = document.getElementById("method").value;
-    const number = document.getElementById("number").value;
-    const amount = document.getElementById("amount").value;
-
-    if (!method || !number || !amount) {
-      alert("⚠️ সব ঘর পূরণ করুন");
-      return;
+    function showWithdraw() {
+      document.getElementById("withdrawForm").classList.remove("hidden");
     }
-    document.getElementById("withdrawForm").classList.add("hidden");
-    document.getElementById("verifyCard").classList.remove("hidden");
-  }
 
-  function submitVerification() {
-    const fileInput = document.getElementById("screenshot");
-    if (!fileInput.files.length) {
-      alert("⚠️ স্কিনশট নির্বাচন করুন");
-      return;
+    function submitWithdraw() {
+      const method = document.getElementById("method").value;
+      const number = document.getElementById("number").value;
+      const amount = document.getElementById("amount").value;
+
+      if (!method || !number || !amount) {
+        alert("⚠️ সব ঘর পূরণ করুন");
+        return;
+      }
+
+      document.getElementById("withdrawForm").classList.add("hidden");
+      document.getElementById("verifyCard").classList.remove("hidden");
     }
-    alert("✅ ভেরিফাই সাবমিট হয়েছে\n\nআপনি যদি সঠিক করে রেফার এবং ভেরিফাই করে থাকেন তাহলে আপনি ৭২ ঘন্টার মধ্যে পেমেন্ট পেয়ে যাবেন।\nযাদেরকে রেফার করেছেন তারা যদি লিংকে ক্লিক না করে তাহলে আপনি পেমেন্ট পাবেন না। ধন্যবাদ 🌺");
-  }
-</script></body>
+
+    function verifySubmit() {
+      alert("✅ ভেরিফাই সাবমিট হয়েছে!\n\nআপনি যদি সঠিকভাবে রেফার এবং ভেরিফাই করে থাকেন তাহলে ৭২ ঘণ্টার মধ্যে পেমেন্ট পেয়ে যাবেন।\n\nযাদেরকে রেফার করেছেন তারা যদি লিংকে ক্লিক না করে তাহলে আপনি পেমেন্ট পাবেন না। ধন্যবাদ 🌺");
+    }
+  </script>
+</body>
 </html>
