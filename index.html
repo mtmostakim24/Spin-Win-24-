@@ -1,223 +1,198 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Spin & Win</title>
+  <title>Earn App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #d4fc79, #96e6a1);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #388e3c;
+      color: white;
+      padding: 20px;
       text-align: center;
-      font-family: sans-serif;
-      background: #fff;
-    }
-    .wheel-container {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      margin: 30px auto;
-    }
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 10px solid #e60000;
-      position: relative;
-      transition: transform 10s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      clip-path: polygon(0 0, 100% 0, 0 100%);
-    }
-    .segment span {
-      position: absolute;
-      left: 28px;
-      top: 20px;
-      transform: rotate(-35deg);
-      font-size: 10px;
+      font-size: 24px;
       font-weight: bold;
-      color: white;
-      text-shadow: 1px 1px 2px black;
     }
-    .pointer {
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-bottom: 30px solid #4caf50;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
     }
-    #spin-btn {
-      padding: 12px 30px;
-      background-color: crimson;
-      color: white;
-      border: none;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
     }
-    #balance {
-      font-size: 20px;
-      margin-top: 20px;
+    h3 {
+      margin-top: 0;
+      color: #2e7d32;
     }
-    form {
-      margin-top: 30px;
-      background: #f0f0f0;
-      padding: 15px;
-      border-radius: 10px;
-      display: inline-block;
-    }
-    input, select {
-      padding: 8px;
-      margin: 5px;
-      font-size: 16px;
-      width: 200px;
-    }
-    #withdraw-btn {
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
       margin-top: 10px;
-      border-radius: 6px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
     }
-    #referral-section {
+    .button {
+      background: #43a047;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .button:hover {
+      background: #2e7d32;
+    }
+    .hidden {
       display: none;
-      margin-top: 20px;
-      padding: 15px;
-      background: #e0f7fa;
+    }
+    .balance-box {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .balance-item {
+      background: #e0f2f1;
+      padding: 10px;
       border-radius: 10px;
+      width: 48%;
+      text-align: center;
+      font-weight: bold;
     }
-    #copy-link {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #00796b;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    footer {
-      margin-top: 50px;
+    .share-message {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #388e3c;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h2>স্পিন করে ডলার জিতে নিন!</h2>
-  <div class="wheel-container">
-    <div class="pointer"></div>
-    <div class="wheel" id="wheel"></div>
+  <header>Earn App - রেফার করে আয় করুন</header>
+  <div class="container">
+
+    <!-- Step 1: Invite Friends -->
+    <div class="card" id="inviteCard">
+      <h3>🎯 কাজ শুরু করার আগে</h3>
+      <p class="share-message">Messenger-এ ১০ জন বন্ধুকে এই লিংকটি পাঠান।</p>
+      <strong>👇 আপনার রেফার লিংক:</strong>
+      <input type="text" id="myLink" readonly>
+      <div class="button" onclick="shareOnMessenger()">📩 Messenger-এ পাঠান</div>
+    </div>
+
+    <!-- Confirmation Prompt -->
+    <div class="card hidden" id="confirmationPrompt">
+      <h3>আপনি কি ১০ জনকে শেয়ার করেছেন?</h3>
+      <div class="button" onclick="confirmShared(true)">✅ Yes</div>
+      <div class="button" onclick="shareOnMessenger()">❌ No, আবার শেয়ার করব</div>
+    </div>
+
+    <!-- Step 2: Main Content -->
+    <div class="card hidden" id="mainContent">
+      <h3>💰 আপনার ব্যালেন্স</h3>
+      <div class="balance-box">
+        <div class="balance-item">Balance: ৳<span id="balance">1200</span></div>
+        <div class="balance-item">Referrals: 10</div>
+      </div>
+      <div class="button" onclick="showWithdraw()">💵 টাকা তুলুন</div>
+      <div class="button" onclick="shareOnMessenger()">📩 আবার শেয়ার করুন</div>
+    </div>
+
+    <!-- Withdraw Form -->
+    <div class="card hidden" id="withdrawForm">
+      <h3>🧾 টাকা উত্তোলন</h3>
+      <select id="method">
+        <option value="">পেমেন্ট মাধ্যম নির্বাচন করুন</option>
+        <option value="bkash">Bkash</option>
+        <option value="nagad">Nagad</option>
+        <option value="rocket">Rocket</option>
+      </select>
+      <input type="text" id="number" placeholder="অ্যাকাউন্ট নাম্বার">
+      <input type="number" id="amount" placeholder="পরিমাণ (৳)">
+      <div class="button" onclick="submitWithdraw()">✅ সাবমিট করুন</div>
+    </div>
+
+    <!-- Verify Form -->
+    <div class="card hidden" id="verifyCard">
+      <h3>🔐 অ্যাকাউন্ট ভেরিফাই করুন</h3>
+      <p>উত্তোলনের জন্য আপনার অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন। নিচে ক্লিক করুন:</p>
+      <a class="button" href="https://adsterra.com/verify-link" target="_blank">🔓 Verify Now</a>
+      <p style="margin-top:15px;">স্ক্রিনশট জমা দিন:</p>
+      <input type="file" id="screenshotUpload" accept="image/*">
+      <div class="button" onclick="submitVerification()">📤 Verify Submit</div>
+    </div>
+
   </div>
-  <button id="spin-btn" type="button">স্পিন করুন</button>
-
-  <div id="balance">মোট ডলার: $<span id="amount">0.0000</span></div>
-  <h3>উইথড্র ফর্ম</h3>
-  <h5>উত্তোলনের জন্য কমপক্ষে $10 ডলার থাকতে হবে!</h5>
-  <form id="withdraw-form">
-    <input type="text" placeholder="আপনার নাম" required><br>
-    <select required>
-      <option value="">পেমেন্ট মেথড</option>
-      <option value="bkash">বিকাশ</option>
-      <option value="nagad">নগদ</option>
-    </select><br>
-    <input type="text" placeholder="মোবাইল নম্বর" required><br>
-    <input type="text" placeholder="উত্তোলন ব্যালেনস" required><br>
-    <button type="submit" id="withdraw-btn">উইথড্র করুন</button>
-  </form>
-
-  <div id="referral-section">
-    <h2>উত্তোলনের আগে আপনাকে ১০ জন বন্ধুকে শেয়ার করতে হবে!</h2>
-    <p>নিচের বাটনে ক্লিক করে লিংক কপি করুন এবং শেয়ার করুন।</p>
-    <input type="text" id="referral-link" value="" readonly style="width: 90%; padding: 8px;">
-    <br>
-    <button id="copy-link">লিংক কপি করুন</button>
-  </div>
-
-  <audio id="spin-sound" src="https://www.soundjay.com/mechanical/sounds/slot-machine-1.mp3" preload="auto"></audio>
 
   <script>
-    const wheel = document.getElementById('wheel');
-    const spinBtn = document.getElementById('spin-btn');
-    const amountSpan = document.getElementById('amount');
-    const spinSound = document.getElementById('spin-sound');
-    const referralSection = document.getElementById('referral-section');
-    const referralLinkInput = document.getElementById('referral-link');
-    const copyLinkBtn = document.getElementById('copy-link');
+    let shared = false;
+    const myLink = document.getElementById("myLink");
 
-    let degree = 0;
-    let balance = parseFloat(localStorage.getItem("balance")) || 0;
-    let referralCount = parseInt(localStorage.getItem("referralCount")) || 0;
-    const myLink = window.location.origin + window.location.pathname + '?ref=' + Date.now();
-    referralLinkInput.value = myLink;
+    const ip = Math.floor(Math.random() * 100000);
+    const refLink = `https://new-mt-earning.vercel.app?ref=ip${ip}`;
+    myLink.value = refLink;
 
-    amountSpan.textContent = balance.toFixed(4);
-
-    const segments = ["$0.01", "$0.02", "$0.003", "$0.04", "$0.05", "$0.006", "$0.007", "$0.008", "$0.009", "$0.010"];
-
-    function createWheel() {
-      const angle = 360 / segments.length;
-      for (let i = 0; i < segments.length; i++) {
-        const seg = document.createElement('div');
-        seg.className = 'segment';
-        seg.style.transform = `rotate(${i * angle}deg)`;
-        seg.style.background = i % 2 === 0 ? '#f44336' : '#2196f3';
-
-        const text = document.createElement('span');
-        text.innerText = segments[i];
-        seg.appendChild(text);
-        wheel.appendChild(seg);
-      }
-    }
-
-    spinBtn.onclick = () => {
-      const rotation = 3600 + Math.floor(Math.random() * 360);
-      wheel.style.transform = `rotate(${rotation}deg)`;
-      spinSound.play();
+    function shareOnMessenger() {
+      const text = `হাই! আমি এখানে ১২০০ টাকা বোনাস পেয়েছি 😍\nতুমি চাইলে এখান থেকে নিতে পারো 👇\n${refLink}`;
+      const encodedText = encodeURIComponent(text);
+      const fbLink = `https://m.me/?link=${encodeURIComponent(refLink)}&quote=${encodedText}`;
       setTimeout(() => {
-        window.location.href = "https://www.profitableratecpm.com/mzze4b78n?key=e3998055e23a80c5cbffb7d80a88c74c";
-      }, 10000);
+        window.location.href = fbLink;
+        document.getElementById("inviteCard").classList.add("hidden");
+        document.getElementById("confirmationPrompt").classList.remove("hidden");
+      }, 300);
     }
 
-    document.getElementById('withdraw-form').onsubmit = function(e) {
-      e.preventDefault();
-      if (balance < 10) {
-        alert("উত্তোলনের জন্য কমপক্ষে $10 থাকতে হবে। আপনার বর্তমান ব্যালেন্স: $" + balance.toFixed(4));
-      } else if (referralCount < 10) {
-        referralSection.style.display = 'block';
-        alert("উত্তোলনের আগে আপনাকে ১০ জন বন্ধুকে শেয়ার করতে হবে!");
+    function confirmShared(choice) {
+      if (choice) {
+        shared = true;
+        document.getElementById("confirmationPrompt").classList.add("hidden");
+        document.getElementById("mainContent").classList.remove("hidden");
       } else {
-        alert("আপনার উইথড্র অনুরোধ গ্রহণ করা হয়েছে!");
+        shareOnMessenger();
       }
     }
 
-    copyLinkBtn.onclick = () => {
-      navigator.clipboard.writeText(referralLinkInput.value);
-      alert("লিংক কপি হয়েছে!");
+    function showWithdraw() {
+      document.getElementById("withdrawForm").classList.remove("hidden");
     }
 
-    window.onload = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('ref')) {
-        let count = parseInt(localStorage.getItem("referralCount")) || 0;
-        localStorage.setItem("referralCount", ++count);
+    function submitWithdraw() {
+      const method = document.getElementById("method").value;
+      const number = document.getElementById("number").value;
+      const amount = document.getElementById("amount").value;
+
+      if (!method || !number || !amount) {
+        alert("⚠️ সব ঘর পূরণ করুন");
+        return;
       }
+
+      document.getElementById("withdrawForm").classList.add("hidden");
+      document.getElementById("verifyCard").classList.remove("hidden");
     }
 
-    createWheel();
+    function submitVerification() {
+      const file = document.getElementById("screenshotUpload").files[0];
+      if (!file) {
+        alert("⚠️ দয়া করে স্ক্রিনশট দিন");
+        return;
+      }
+      alert("✅ ভেরিফাই সাবমিট হয়েছে?\nআপনি যদি সঠিক করে রেফার এবং ভেরিফাই করে থাকেন তাহলে আপনি ৭২ ঘন্টার মধ্যে পেমেন্ট পেয়ে যাবেন।\nযাদেরকে রেফার করেছেন তারা যদি লিংকে ক্লিক করে রেফার না করে তাহলে আপনি পেমেন্ট পাবেন না।\nধন্যবাদ 🌺");
+    }
   </script>
-
-  <footer>
-    <p>Powered by Your Site</p>
-    <script type="text/javascript" src="//pl26607619.profitableratecpm.com/89/be/eb/89beeb153f91b5aec28bb0d98b62029c.js"></script>
-  </footer>
 </body>
 </html>
